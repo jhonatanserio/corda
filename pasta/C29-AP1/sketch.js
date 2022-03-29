@@ -15,15 +15,23 @@ var fruta
 var linkzin
 var cueio
 //variaveis de imagem XD
+var cueiopiscando
+var cueiofaminto
 var cueioimg
 var fruitsimg
 var fundoimg
 var tesoura
 //cria function preload XD
 function preload(){
+  cueiopiscando=loadAnimation("blink_1.png","blink_2.png","blink_3.png")
+  cueiofaminto=loadAnimation("eat_0.png","eat_1.png","eat_2.png","eat_3.png","eat_4.png")
   cueioimg=loadImage("Rabbit-01.png")
   fruitsimg=loadImage("melon.png")
   fundoimg=loadImage("background.png")
+  //propriedade de eita reprodução 0_0
+  cueiopiscando.playing=true
+  cueiofaminto.playing=true
+  cueiofaminto.looping=false
 }
 function setup() 
 {
@@ -36,9 +44,15 @@ function setup()
 
   textSize(50)
 
-  cueio=createSprite(400,590,15,15)
-  cueio.addImage(cueioimg)
+  cueio=createSprite(230,620,100,100)
+  //cueio.addImage(cueioimg)
   cueio.scale=0.3
+  cueiopiscando.frameDelay=8
+  cueiofaminto.frameDelay=10
+  cueio.addAnimation("oquesegostapikachu",cueiopiscando)
+  cueio.addAnimation("selocoocadeirantecorreu",cueiofaminto)
+  cueio.changeAnimation("oquesegostapikachu")
+  
 
   tesoura=createImg("cut_btn (1).png")
   tesoura.position(270,10)
@@ -67,8 +81,13 @@ function draw()
   chao.show()
   corda.show()
   //ellipse(fruta.position.x,fruta.position.y,15,15)
-  image(fruitsimg,fruta.position.x,fruta.position.y,60,60)
+  if (fruta!=null){
+  image(fruitsimg,fruta.position.x,fruta.position.y,70,70)
+  }
   Engine.update(engine);
+  if(collide(fruta,cueio)==true){
+    cueio.changeAnimation("selocoocadeirantecorreu")
+  }
   drawSprites()
 }
 //função para corta a corda 
@@ -76,5 +95,18 @@ function drop(){
   corda.break()
   linkzin.detach()
   linkzin=null
+}
+function collide(body,sprite){
+if (body!=null){
+  var alcance=dist(body.position.x,body.position.y,sprite.position.x,sprite.position.y);
+  if(alcance<=80){
+    World.remove(engine.world,fruta);
+    fruta=null;
+    return true;
+  }
+  else{
+    return false
+  }
+}
 }
 
