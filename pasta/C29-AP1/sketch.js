@@ -98,15 +98,4 @@ function drop(){
 }
 function collide(body,sprite){
 if (body!=null){
-  var alcance=dist(body.position.x,body.position.y,sprite.position.x,sprite.position.y);
-  if(alcance<=80){
-    World.remove(engine.world,fruta);
-    fruta=null;
-    return true;
-  }
-  else{
-    return false
-  }
-}
-}
-
+  var alcance=dist(body.position.x,body.position.y,sprite.position.x,sprite.position.
